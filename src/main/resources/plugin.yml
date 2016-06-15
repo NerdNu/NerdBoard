@@ -1,0 +1,5 @@
+name: NerdBoard
+main: nu.nerd.nerdboard.NerdBoard
+description: A common ScoreBoard for Nerd.nu plugins.
+author: redwall_hp
+version: ${project.version}
