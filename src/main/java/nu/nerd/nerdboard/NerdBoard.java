@@ -20,16 +20,6 @@ public class NerdBoard extends JavaPlugin {
 
 
     /**
-     * Inform subscribed plugins that the player/team situation has been changed
-     * @param reason what changed
-     */
-    public void sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason reason) {
-        NerdBoardUpdatedEvent event = new NerdBoardUpdatedEvent(reason);
-        getServer().getPluginManager().callEvent(event);
-    }
-
-
-    /**
      * Get the scoreboard object for use by an external plugin.
      * @return the scoreboard
      */
@@ -45,8 +35,10 @@ public class NerdBoard extends JavaPlugin {
      * @return the newly added team
      */
     public Team addTeam(String name) {
-        sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason.ADD_TEAM);
-        return scoreboard.registerNewTeam(name);
+        Team team = scoreboard.registerNewTeam(name);
+        NerdBoardUpdatedTeamsEvent event = new NerdBoardUpdatedTeamsEvent(UpdateReason.ADD_TEAM, name);
+        getServer().getPluginManager().callEvent(event);
+        return team;
     }
 
 
@@ -56,8 +48,9 @@ public class NerdBoard extends JavaPlugin {
      * @param name The name of the team to remove
      */
     public void removeTeam(String name) {
-        sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason.REMOVE_TEAM);
         scoreboard.getTeam(name).unregister();
+        NerdBoardUpdatedTeamsEvent event = new NerdBoardUpdatedTeamsEvent(UpdateReason.REMOVE_TEAM, name);
+        getServer().getPluginManager().callEvent(event);
     }
 
 
@@ -69,8 +62,9 @@ public class NerdBoard extends JavaPlugin {
      * @deprecated The Bukkit API prefers you use addEntryToTeam()
      */
     public void addPlayerToTeam(Team team, OfflinePlayer player) {
-        sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason.ADD_ENTRY);
         team.addPlayer(player);
+        NerdBoardUpdatedEntriesEvent event = new NerdBoardUpdatedEntriesEvent(UpdateReason.ADD_ENTRY, team, player);
+        getServer().getPluginManager().callEvent(event);
     }
 
 
@@ -81,8 +75,9 @@ public class NerdBoard extends JavaPlugin {
      * @param entry The entry to add to the team
      */
     public void addEntryToTeam(Team team, String entry) {
-        sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason.ADD_ENTRY);
         team.addEntry(entry);
+        NerdBoardUpdatedEntriesEvent event = new NerdBoardUpdatedEntriesEvent(UpdateReason.ADD_ENTRY, team, entry);
+        getServer().getPluginManager().callEvent(event);
     }
 
 
@@ -94,8 +89,9 @@ public class NerdBoard extends JavaPlugin {
      * @deprecated The Bukkit API prefers you use removeEntryFromTeam()
      */
     public void removePlayerFromTeam(Team team, OfflinePlayer player) {
-        sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason.REMOVE_ENTRY);
         team.removePlayer(player);
+        NerdBoardUpdatedEntriesEvent event = new NerdBoardUpdatedEntriesEvent(UpdateReason.REMOVE_ENTRY, team, player);
+        getServer().getPluginManager().callEvent(event);
     }
 
 
@@ -106,8 +102,9 @@ public class NerdBoard extends JavaPlugin {
      * @param entry The entry to remove from the team
      */
     public void removeEntryFromTeam(Team team, String entry) {
-        sendUpdatedEvent(NerdBoardUpdatedEvent.UpdateReason.REMOVE_ENTRY);
         team.removeEntry(entry);
+        NerdBoardUpdatedEntriesEvent event = new NerdBoardUpdatedEntriesEvent(UpdateReason.REMOVE_ENTRY, team, entry);
+        getServer().getPluginManager().callEvent(event);
     }
 
 

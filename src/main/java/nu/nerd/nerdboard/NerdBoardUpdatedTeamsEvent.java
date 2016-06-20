@@ -5,27 +5,29 @@ import org.bukkit.event.HandlerList;
 
 
 /**
- * The common scoreboard has been updated, which may concern other plugins
+ * The common scoreboard has been updated the teams, which may concern other plugins
  */
-public class NerdBoardUpdatedEvent extends Event {
-
-
-    public enum UpdateReason {
-        ADD_TEAM, REMOVE_TEAM, ADD_ENTRY, REMOVE_ENTRY
-    }
+public class NerdBoardUpdatedTeamsEvent extends Event {
 
 
     private static final HandlerList handlers = new HandlerList();
     private UpdateReason reason;
+    private String team;
 
 
-    public NerdBoardUpdatedEvent(UpdateReason reason) {
+    public NerdBoardUpdatedTeamsEvent(UpdateReason reason, String team) {
         this.reason = reason;
+        this.team = team;
     }
 
 
     public UpdateReason getReason() {
         return reason;
+    }
+
+
+    public String getTeam() {
+        return team;
     }
 
 
