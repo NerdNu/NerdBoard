@@ -14,7 +14,7 @@ public class NerdBoard extends JavaPlugin {
 
     public void onEnable() {
         NerdBoard.instance = this;
-        scoreboard = getServer().getScoreboardManager().getMainScoreboard();
+        scoreboard = getServer().getScoreboardManager().getNewScoreboard();
         new NerdBoardListener();
     }
 
